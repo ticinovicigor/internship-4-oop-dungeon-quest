@@ -5,6 +5,8 @@ string welcome = "Dobrodosli u Dungeon Quest!\nKako biste pobijedili, morate pro
 
 while (true)
 {
+    //  CHARACTER CREATION
+
     Hero Player = new Hero();
 
     Console.WriteLine(welcome);
@@ -18,8 +20,12 @@ while (true)
 
     Console.Clear() ;
     CustomHp(Player);
+
+    // GENERATING ENEMIES
+
+    List<int> monsters = GenerateMonsters();
     
-    
+    // COMBAT
 }
 
 static int ChooseHero()
@@ -57,7 +63,7 @@ static Hero CreateHero(Hero Player, int heroId, string playerName)
         case 3:
             return new Marksman(playerName, 100, 35);    
     }
-    return new Hero(); //dodano zbog errora not all code paths return a value
+    return new Hero(); //added because of error - not all code paths return a value
 }
 
 static void CustomHp(Hero Player)
@@ -79,4 +85,25 @@ static void CustomHp(Hero Player)
         Player.HP = newHp;
 }
 
+static List<int> GenerateMonsters()
+{
+    //creates a list of 10 IDs (50% -> Goblin (ID = 1), 24% -> Brute (ID = 2), 1% - Witch (ID = 3))
+    List<int> idList = new List<int>();
+    Random random = new Random();
+    int id = new int();
 
+    for (int i = 0; i < 10; i++)
+    {
+        id = random.Next(1, 101);
+
+        if (id == 1)
+            idList.Add(3);
+
+        else if (id < 25)
+            idList.Add(2);
+
+        else
+            idList.Add(1);
+    }
+    return idList;
+}
