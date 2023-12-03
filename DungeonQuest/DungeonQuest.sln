@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonQuest", "DungeonQuest.csproj", "{AB512225-2784-4BC7-B4D2-F08C838FAD34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonQuest.Presentation", "DungeonQuest.Presentation.csproj", "{AB512225-2784-4BC7-B4D2-F08C838FAD34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonQuest.Domain", "..\DungeonQuest.Domain\DungeonQuest.Domain.csproj", "{FB15E254-6E1B-4E90-A4F2-B35AB6F5775F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonQuest.Data", "..\DungeonQuest.Data\DungeonQuest.Data.csproj", "{E4BD1CA6-7D74-4722-8723-A2DC56827DB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{AB512225-2784-4BC7-B4D2-F08C838FAD34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB512225-2784-4BC7-B4D2-F08C838FAD34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB512225-2784-4BC7-B4D2-F08C838FAD34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB15E254-6E1B-4E90-A4F2-B35AB6F5775F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB15E254-6E1B-4E90-A4F2-B35AB6F5775F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB15E254-6E1B-4E90-A4F2-B35AB6F5775F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB15E254-6E1B-4E90-A4F2-B35AB6F5775F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4BD1CA6-7D74-4722-8723-A2DC56827DB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4BD1CA6-7D74-4722-8723-A2DC56827DB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4BD1CA6-7D74-4722-8723-A2DC56827DB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4BD1CA6-7D74-4722-8723-A2DC56827DB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

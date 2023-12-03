@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "DungeonQuest.Domain/1.0.0": {
+        "dependencies": {
+          "DungeonQuest.Data": "1.0.0"
+        },
+        "runtime": {
+          "DungeonQuest.Domain.dll": {}
+        }
+      },
+      "DungeonQuest.Data/1.0.0": {
+        "runtime": {
+          "DungeonQuest.Data.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DungeonQuest.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DungeonQuest.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -8,10 +8,10 @@ namespace DungeonQuest.Domain.Repositories
 {
     public class Witch : Monster
     {
-        public Witch()
+        public Witch(int hp, int damage)
         {
-            HP = 100;
-            Damage = 30;
+            HP = hp;
+            Damage = damage;
         }
     }
 }

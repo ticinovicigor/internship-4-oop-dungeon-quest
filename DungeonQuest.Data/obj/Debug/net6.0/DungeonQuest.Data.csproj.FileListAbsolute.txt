@@ -1,0 +1,11 @@
+C:\Users\igort\Documents\DUMP\internship-4-oop-dungeon-quest\DungeonQuest.Data\bin\Debug\net6.0\DungeonQuest.Data.deps.json
+C:\Users\igort\Documents\DUMP\internship-4-oop-dungeon-quest\DungeonQuest.Data\bin\Debug\net6.0\DungeonQuest.Data.dll
+C:\Users\igort\Documents\DUMP\internship-4-oop-dungeon-quest\DungeonQuest.Data\bin\Debug\net6.0\DungeonQuest.Data.pdb
+C:\Users\igort\Documents\DUMP\internship-4-oop-dungeon-quest\DungeonQuest.Data\obj\Debug\net6.0\DungeonQuest.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\igort\Documents\DUMP\internship-4-oop-dungeon-quest\DungeonQuest.Data\obj\Debug\net6.0\DungeonQuest.Data.AssemblyInfoInputs.cache
+C:\Users\igort\Documents\DUMP\internship-4-oop-dungeon-quest\DungeonQuest.Data\obj\Debug\net6.0\DungeonQuest.Data.AssemblyInfo.cs
+C:\Users\igort\Documents\DUMP\internship-4-oop-dungeon-quest\DungeonQuest.Data\obj\Debug\net6.0\DungeonQuest.Data.csproj.CoreCompileInputs.cache
+C:\Users\igort\Documents\DUMP\internship-4-oop-dungeon-quest\DungeonQuest.Data\obj\Debug\net6.0\DungeonQuest.Data.dll
+C:\Users\igort\Documents\DUMP\internship-4-oop-dungeon-quest\DungeonQuest.Data\obj\Debug\net6.0\refint\DungeonQuest.Data.dll
+C:\Users\igort\Documents\DUMP\internship-4-oop-dungeon-quest\DungeonQuest.Data\obj\Debug\net6.0\DungeonQuest.Data.pdb
+C:\Users\igort\Documents\DUMP\internship-4-oop-dungeon-quest\DungeonQuest.Data\obj\Debug\net6.0\ref\DungeonQuest.Data.dll

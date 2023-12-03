@@ -8,10 +8,10 @@ namespace DungeonQuest.Domain.Repositories
 {
     public class Goblin : Monster
     {
-        public Goblin() 
+        public Goblin(int hp, int damage)
         {
-            HP = 25;
-            Damage = 15;
+            HP = hp;
+            Damage = damage;
         }
     }
 }
