@@ -8,6 +8,6 @@ namespace DungeonQuest.Domain.Repositories
 {
     public interface IEntity
     {
-        public void Damage(Entity enemy, int damage);
+        public void TakeDamage(Entity enemy, bool specialAbilityUsed);
     }
 }

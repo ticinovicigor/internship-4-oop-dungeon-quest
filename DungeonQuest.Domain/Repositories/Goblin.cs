@@ -10,9 +10,11 @@ namespace DungeonQuest.Domain.Repositories
     {
         public Goblin(int hp, int damage, int xp)
         {
+            Name = "Goblin";
             HP = hp;
-            Damage = damage;
+            Dmg = damage;
             XP = xp;
+            MaxHP = hp;
         }
     }
 }

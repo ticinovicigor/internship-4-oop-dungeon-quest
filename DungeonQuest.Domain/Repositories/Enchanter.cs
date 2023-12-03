@@ -9,12 +9,12 @@ namespace DungeonQuest.Domain.Repositories
     public class Enchanter : Hero
     {
         int Mana {  get; set; }
-        public Enchanter(string name, int hp, int damage)
+        public Enchanter(string name)
         {
             Name = name;
-            HP = hp;
+            HP = 50;
             XP = 0;
-            Damage = damage;
+            Dmg = 50;
             Mana = 50;
         }
     }

@@ -8,12 +8,12 @@ namespace DungeonQuest.Domain.Repositories
 {
     public class Gladiator : Hero
     {
-        public Gladiator(string name, int hp, int damage)
+        public Gladiator(string name)
         {
             Name = name;
-            HP = hp;
+            HP = 150;
             XP = 0;
-            Damage = damage;
+            Dmg = 25;
         }
     }
 }

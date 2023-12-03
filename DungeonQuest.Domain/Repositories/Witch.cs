@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 
 namespace DungeonQuest.Domain.Repositories
 {
-    public class Witch : Monster, IEntity   
+    public class Witch : Monster 
     {
         public Witch(int hp, int damage, int xp)
         {
+            Name = "Witch";
             HP = hp;
-            Damage = damage;
+            Dmg = damage;
             XP = xp;
+            MaxHP = hp;
         }
-        public void Damage(Entity enemy, int damage)
-        {
-
-        }
+        
     }
 }

@@ -11,9 +11,11 @@ namespace DungeonQuest.Domain.Repositories
     {
         public Brute(int hp, int damage, int xp)
         {
+            Name = "Brute";
             HP = hp;
-            Damage = damage;
+            Dmg = damage;
             XP = xp;
+            MaxHP = hp;
         }
     }
 }
