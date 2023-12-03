@@ -9,10 +9,11 @@ namespace DungeonQuest.Domain.Repositories
 {
     public class Brute : Monster
     {
-        public Brute(int hp, int damage)
+        public Brute(int hp, int damage, int xp)
         {
             HP = hp;
             Damage = damage;
+            XP = xp;
         }
     }
 }

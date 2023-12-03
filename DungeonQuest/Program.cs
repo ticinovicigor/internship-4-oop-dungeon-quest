@@ -1,21 +1,17 @@
 ﻿using DungeonQuest.Domain.Repositories;
 
 string input = "";
-string welcome = "Dobrodosli u Dungeon Quest!\nKako biste pobijedili, morate proci svih 10 cudovista pred Vama.\nAko u bilo kojem trenutku zelite odustati od igre, prostor za unos ostavite praznim i stisnite ENTER\nSretno!\n\nZa pocetak unesite ime svog lika:";
+string welcome = "Dobrodosli u Dungeon Quest!\nKako biste pobijedili, morate proci svih 10 cudovista pred Vama.\nSretno!\n\nZa pocetak unesite ime svog lika:";
 
 while (true)
 {
     //  CHARACTER CREATION
 
     Hero Player = new Hero();
-
-    Console.WriteLine(welcome);
-    string playerName = Console.ReadLine();
-    if (playerName == "")
-        break;
+    string playerName = GetHeroName(welcome); 
     
     Console.Clear();
-    int heroId = ChooseHero();
+    int heroId = ChooseHero();  // 1 - Gladiator, 2 - Enchanter, 3 - Marksman
     Player = CreateHero(Player, heroId, playerName);
 
     Console.Clear() ;
@@ -26,6 +22,31 @@ while (true)
     List<int> monsters = GenerateMonsters();
     
     // COMBAT
+
+    foreach (int monsterId in monsters)
+    {
+        Monster currentEnemy = CreateEnemy(monsterId);
+        
+    }
+
+}
+
+static string GetHeroName(string welcome)
+{
+    string newName = "";
+    bool firstTime = true;
+
+    while (newName == "")
+    {
+        if(!firstTime)
+            Console.WriteLine("Nepravilan unos, pokusajte ponovo");
+        firstTime = false;
+
+        Console.WriteLine(welcome);
+        newName = Console.ReadLine();
+    }
+    
+    return newName;
 }
 
 static int ChooseHero()
@@ -106,4 +127,33 @@ static List<int> GenerateMonsters()
             idList.Add(1);
     }
     return idList;
+}
+
+static Monster CreateEnemy(int id)
+{
+    Random random = new Random();
+    int hp = new int();
+    int xp = new int();
+    int dmg = new int();
+    switch (id)
+    {
+        case 1: //goblin
+            hp = random.Next(20, 36);
+            dmg = random.Next(20, 36);
+            xp = (hp + dmg) / 2;
+            return new Goblin(hp, dmg, xp);
+                        
+        case 2: //brute
+            hp = random.Next(60, 80);
+            dmg = random.Next(25, 41);
+            xp = (hp + dmg) / 2;
+            return new Brute(hp, dmg, xp);
+
+        case 3: //witch
+            hp = random.Next(35, 61);
+            dmg = random.Next(25, 41);
+            xp = (hp + dmg) / 2;
+            return new Witch(hp, dmg, xp);
+    }
+    return new Monster(); //added because of error - not all code paths return a value
 }
