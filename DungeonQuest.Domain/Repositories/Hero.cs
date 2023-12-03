@@ -8,7 +8,10 @@ namespace DungeonQuest.Domain.Repositories
 {
     public class Hero : Entity, IEntity
     {
-                
+
+        public string SpecialChoiceMessage { get; set; }
+        public string SpecialAbility { get; set; }
+
         public void TakeDamage(Entity enemy, bool specialAbilityUsed)
         {
             HP -= enemy.Dmg;

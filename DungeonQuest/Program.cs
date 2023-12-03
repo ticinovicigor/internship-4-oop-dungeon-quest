@@ -36,7 +36,7 @@ while (true)
         
         Entity winner = Duel(Player, currentEnemy, i);
         
-        Console.Clear();
+        
         
         if(winner as Monster != null)
         {
@@ -197,7 +197,7 @@ static Monster CreateEnemy(int id)
 static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 {
     bool firstTime = true;
-    List<string> attacks = new List<string> { "", "Direct Attack", "Flank Attack", "Counterattack" };
+    List<string> attacks = new List<string> { "", "Direct Attack", "Flank Attack", "Counterattack", Player.SpecialAbility};
 
     while(Player.HP > 0 && currentEnemy.HP > 0)
     {
@@ -206,13 +206,25 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
         Console.WriteLine($"{Player.Name}\t\t{Player.HP}/{Player.MaxHP}\t\t{Player.Dmg}\t\t{Player.XP%100}/100");
         Console.WriteLine($"{currentEnemy.Name}\t\t{currentEnemy.HP}/{currentEnemy.MaxHP}\t\t{currentEnemy.Dmg}\t\t{currentEnemy.XP}\n");
 
-        int playerAttack = ChooseAttack();
+        int playerAttack = ChooseAttack(Player);
         int enemyAttack = EnemyChooseAttack(); 
 
         if(playerAttack == enemyAttack)
         {
             Console.Clear();
             Console.WriteLine($"{currentEnemy.Name} has used {attacks[enemyAttack]}. It's a draw!");
+            continue;
+        }
+
+        if (attacks[playerAttack] == "Rage")
+        {
+            Player.HP -= Player.MaxHP/5;
+            if (Player.HP <= 0) //losing the game after using Rage is allowed
+                break;
+
+            currentEnemy.TakeDamage(Player, true);
+            Console.Clear();
+            Console.WriteLine($"You have used Rage and have dealt {Player.Dmg*2} damage!");
             continue;
         }
 
@@ -240,20 +252,28 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
         return currentEnemy;
 } 
 
-static int ChooseAttack()
+static int ChooseAttack(Hero Player)
 {
     while (true)
     {
         Console.WriteLine("Choose your attack:\n1 - Direct Attack\n2 - Flank Attack\n3 - Counterattack");
+        Console.WriteLine(Player.SpecialChoiceMessage); //  string in format "4 - {hero-specific-ability}"
         string choice = Console.ReadLine();
+        
+        if(choice == "4" && Player as Marksman == null) // every hero except marksman has a special "activatable" ability
+            return 4;
+
         switch (choice)
         {
             case "1":
                 return 1;
+            
             case "2":
                 return 2;
+            
             case "3":
                 return 3;
+            
             default:
                 Console.Clear();
                 Console.WriteLine("Wrong input, try again");
@@ -289,7 +309,7 @@ static bool GoAgain()
 {
     while (true)
     {
-        Console.WriteLine("Thank you for playing.\nDo you want to try again?\n1 - Yes\n2 - No");
+        Console.WriteLine("\nThank you for playing.\n\nDo you want to try again?\n1 - Yes\n2 - No");
         string choice = Console.ReadLine();
         switch (choice)
         {

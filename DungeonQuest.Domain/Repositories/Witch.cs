@@ -8,6 +8,7 @@ namespace DungeonQuest.Domain.Repositories
 {
     public class Witch : Monster 
     {
+
         public Witch(int hp, int damage, int xp)
         {
             Name = "Witch";

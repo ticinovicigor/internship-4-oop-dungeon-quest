@@ -8,10 +8,12 @@ namespace DungeonQuest.Domain.Repositories
 {
     public class Monster : Entity, IEntity
     {
-        
         public void TakeDamage(Entity enemy, bool specialAbilityUsed)
         {
             HP -= enemy.Dmg;
+
+            if(specialAbilityUsed && enemy as Gladiator != null)    //if gladiator uses his special ability the enemy takes double damage
+                HP -= enemy.Dmg;
         }
     }
 }

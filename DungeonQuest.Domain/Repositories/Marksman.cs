@@ -10,6 +10,8 @@ namespace DungeonQuest.Domain.Repositories
 {
     public class Marksman : Hero
     {
+
+        
         public int CriticalChance { get; set; }
         public int StunChance { get; set; }
         public Marksman(string name)
@@ -17,10 +19,9 @@ namespace DungeonQuest.Domain.Repositories
             Name = name;
             HP = 100;
             XP = 0;
-            Dmg = 35;
             CriticalChance = 0;
             StunChance = 0;
-
+            Dmg = 35;
         }
     }
 }
