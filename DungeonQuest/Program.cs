@@ -37,12 +37,21 @@ while (true)
         Entity winner = Duel(Player, currentEnemy, i);
         
         Console.Clear();
+        
         if(winner as Monster != null)
         {
             i--;
             Console.WriteLine("You lost. Better luck next time :(");
             break;
         }
+        
+        Player.XP += currentEnemy.XP;
+
+        
+        Player.HP += Player.MaxHP/4;
+        
+        if(Player.HP > Player.MaxHP)
+            Player.HP = Player.MaxHP;
     }
     
     //  GAME END
@@ -80,7 +89,7 @@ static int ChooseHero()
 {
     while (true)
     {
-        Console.WriteLine("Choose your hero:\n1 - Gladiator\n2 - Enchanter\n3 - Marksman");
+        Console.WriteLine("Choose your hero:\n1 - Gladiator (150 HP, 25 DMG, rage)\n2 - Enchanter (50 HP, 50 DMG, mana, resurrection)\n3 - Marksman (100 HP, 35 DMG, critical chance, stun chance)");
         string choice = Console.ReadLine();
         switch(choice)
         {
