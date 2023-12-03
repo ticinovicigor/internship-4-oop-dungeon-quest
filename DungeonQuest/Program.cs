@@ -31,11 +31,31 @@ while (true)
     foreach (int monsterId in monsters)
     {
         i++;
+        
         Monster currentEnemy = CreateEnemy(monsterId);
+        
         Entity winner = Duel(Player, currentEnemy, i);
+        
         Console.Clear();
+        if(winner as Monster != null)
+        {
+            i--;
+            Console.WriteLine("You lost. Better luck next time :(");
+            break;
+        }
     }
+    
+    //  GAME END
 
+    if(i == 10)
+        Console.WriteLine("Congratulations. You won!");
+
+    Console.WriteLine($"You have passed {i}/10 enemies and reached level {Player.XP/100}");
+
+    bool again = GoAgain();
+
+    if (!again)
+        break;
 }
 
 static string GetHeroName(string welcome)
@@ -106,7 +126,7 @@ static void CustomHp(Hero Player)
             Console.WriteLine("Wrong input, try again");
         firstTime = false;
         
-        Console.WriteLine($"If you want your hero to have a custom amount of HP, enter it now.\nIf you enter 0 or a negative number, HP will remnain at its default value ({Player.HP}):");
+        Console.WriteLine($"If you want your hero to have a custom amount of HP, enter it now.\nIf you enter 0 or a negative number, HP will remain at its default value ({Player.HP}):");
         customHp = Console.ReadLine();        
     }
     if(newHp > 0)
@@ -168,6 +188,7 @@ static Monster CreateEnemy(int id)
 static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 {
     bool firstTime = true;
+    List<string> attacks = new List<string> { "", "Direct Attack", "Flank Attack", "Counterattack" };
 
     while(Player.HP > 0 && currentEnemy.HP > 0)
     {
@@ -176,13 +197,13 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
         Console.WriteLine($"{Player.Name}\t\t{Player.HP}/{Player.MaxHP}\t\t{Player.Dmg}\t\t{Player.XP%100}/100");
         Console.WriteLine($"{currentEnemy.Name}\t\t{currentEnemy.HP}/{currentEnemy.MaxHP}\t\t{currentEnemy.Dmg}\t\t{currentEnemy.XP}\n");
 
-        var playerAttack = ChooseAttack();
-        var enemyAttack = EnemyChooseAttack(); 
+        int playerAttack = ChooseAttack();
+        int enemyAttack = EnemyChooseAttack(); 
 
         if(playerAttack == enemyAttack)
         {
             Console.Clear();
-            //to do: appropriate message
+            Console.WriteLine($"{currentEnemy.Name} has used {attacks[enemyAttack]}. It's a draw!");
             continue;
         }
 
@@ -192,19 +213,22 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
         {
             currentEnemy.TakeDamage(Player, false);
             Console.Clear();
-            //to do: appropriate message
+            Console.WriteLine($"{currentEnemy.Name} has used {attacks[enemyAttack]}. You have dealt {Player.Dmg} damage!");
         }
 
         else
         {
             Player.TakeDamage(currentEnemy, false); 
             Console.Clear();
-            //to do: appropriate message
+            Console.WriteLine($"{currentEnemy.Name} has used {attacks[enemyAttack]}. You have lost {currentEnemy.Dmg} HP!");
         }
 
     }
 
-    return Player;
+    if (Player.HP > 0)
+        return Player;
+    else
+        return currentEnemy;
 } 
 
 static int ChooseAttack()
@@ -250,4 +274,24 @@ static bool AttackWon(int playerAttack, int enemyAttack)
 
     else
         return false;
+}
+
+static bool GoAgain()
+{
+    while (true)
+    {
+        Console.WriteLine("Thank you for playing.\nDo you want to try again?\n1 - Yes\n2 - No");
+        string choice = Console.ReadLine();
+        switch (choice)
+        {
+            case "1":
+                return true;
+            case "2":
+                return false;
+            default:
+                Console.Clear();
+                Console.WriteLine("Wrong input, try again");
+                break;
+        }
+    }
 }
