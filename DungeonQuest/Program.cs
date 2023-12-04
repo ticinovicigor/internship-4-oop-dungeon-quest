@@ -17,41 +17,53 @@ while (true)
 
 
     Console.Clear();
-    CustomHp(Player);
+    CustomHp(Player);           // The player can set themselves a custom amount of HP if they want
     Player.MaxHP = Player.HP;
 
+    
+    
+    
+    
     // GENERATING ENEMIES
 
-    List<int> monsters = GenerateMonsters(10);
+    List<int> monsters = GenerateMonsters(10);  // creates a list of n IDs (75% -> Goblin (ID = 1), 20% -> Brute (ID = 2), 5% - Witch (ID = 3))
 
+    
+    
+    
+    
+    
+    
     // COMBAT
 
     Console.Clear();
-
-
 
     int i = 0;
     bool flag = false;
     int monsterId = new int();
 
-    for (int j = 0; j < monsters.Count; j++)
+    for (int j = 0; j < monsters.Count; j++)    // for loop cycles through all generated enemies and faces them against the Player
     {
         i++;
         monsterId = monsters[i - 1];
 
-        Monster currentEnemy = CreateEnemy(monsterId);
+        Monster currentEnemy = CreateEnemy(monsterId);  
 
-        Entity winner = Duel(Player, currentEnemy, i);
+        Entity winner = Duel(Player, currentEnemy, i); 
 
 
 
-        if (winner as Monster != null)
+        if (winner as Monster != null)  // game over
         {
             i--;
             Console.WriteLine("\nYou lost. Better luck next time :(");
             flag = true;
-            break;
+            break;  // exits for-loop and ends the game
         }
+
+        // this part is reachable only if the player has won the Duel
+        
+        // XP and HP gain
 
         Player.XP += currentEnemy.XP;
 
@@ -61,7 +73,7 @@ while (true)
             Player.HP = Player.MaxHP;
 
 
-        if (currentEnemy as Witch != null)
+        if (currentEnemy as Witch != null)  // if the Player has defeated a Witch, it spawns another 2 enemies and the Player faces them immediately 
         {
             List<int> minions = new List<int>();
 
@@ -90,10 +102,9 @@ while (true)
     bool again = GoAgain();
 
     if (!again)
-    {
-        Console.Clear();
         break;
-    }
+    
+    Console.Clear();
 }
 
 static string GetHeroName(string welcome)
@@ -121,7 +132,7 @@ static int ChooseHero()
 {
     while (true)
     {
-        Console.WriteLine("Choose your hero:\n1 - Gladiator (150 HP, 25 DMG, Rage)\n2 - Enchanter (50 HP, 50 DMG, Mana, Resurrection)\n3 - Marksman (100 HP, 35 DMG, Critical Chance, Stun Chance)");
+        Console.WriteLine("Choose your hero:\n1 - Gladiator (150 HP, 20 DMG, Rage)\n2 - Enchanter (50 HP, 50 DMG, Mana, Resurrection)\n3 - Marksman (100 HP, 35 DMG, Critical Chance, Stun Chance)");
         string choice = Console.ReadLine();
         switch(choice)
         {
@@ -176,7 +187,7 @@ static void CustomHp(Hero Player)
 
 static List<int> GenerateMonsters(int n)
 {
-    //creates a list of n IDs (75% -> Goblin (ID = 1), 20% -> Brute (ID = 2), 5% - Witch (ID = 3))
+    
     List<int> idList = new List<int>();
     Random random = new Random();
     int id = new int();
@@ -231,22 +242,27 @@ static Monster CreateEnemy(int id)
 static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 {
     Random random = new Random();
-
     List<string> attacks = new List<string> { "", "Direct Attack", "Flank Attack", "Counterattack", Player.SpecialAbility};
-    
+
+    // determining Mana for the Enchanter
     int maxMana = 40 + 20 * (Player.XP / 100);
     Player.Mana = maxMana;
 
+    // determining Critical and Stun Chance for the Marksman
     Player.CriticalChance = 10 + 6 * (Player.XP / 100);
     bool critical = false;
     bool stun = false;
 
+    // if a Witch has previously used Joomboos, it is noted in the Player's property JoomboosUsed
+    // randomizes HP for every upcoming enemy
     if(Player.JoomboosUsed)
         currentEnemy.HP = random.Next(1, Player.MaxHP);
     
 
+    //repeats fighting until someone dies
     while(Player.HP > 0 && currentEnemy.HP > 0)
     {
+        // display data
         Console.WriteLine($"\nEnemy {enemyIndex}: ({currentEnemy.Name})\nYour level is {Player.XP/100}\n");
         Console.WriteLine("Name\t\tHP\t\tDMG\t\tXP");
         Console.WriteLine($"{Player.Name}\t\t{Player.HP}/{Player.MaxHP}\t\t{Player.Dmg}\t\t{Player.XP%100}/100");
@@ -255,11 +271,12 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
         if(Player as Enchanter != null)
             Console.WriteLine($"You have {Player.Mana}/{maxMana} Mana\n");
 
+        // making moves
         int playerAttack = ChooseAttack(Player);
         int enemyAttack = EnemyChooseAttack(); 
 
         
-        
+        // Player's special attacks
         if (attacks[playerAttack] == "Rage")
         {
             Player.HP -= Player.MaxHP/5;
@@ -293,7 +310,8 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
             Console.WriteLine($"The enemy was stunned and you have dealt {Player.Dmg} damage!");
             continue;
         }
-        
+
+        // draw
         if (playerAttack == enemyAttack)
         {
             Console.Clear();
@@ -306,11 +324,13 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
             continue;
         }
 
+        // determines whose attack won
         bool playerHasWon = AttackWon(playerAttack, enemyAttack);
 
         critical = false;
         stun = false;
 
+        // determines if the Marksman has used Critical or stun in this move
         if (Player as Marksman != null)
         {
             int chance = random.Next(1, 101);   // critical attack and stun attack CANNOT be used simultaneously
@@ -324,6 +344,7 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 
         if (playerHasWon)
         {
+            // Enchanter special trait
             if(Player as Enchanter != null && Player.Mana <= 0)
             {
                 Player.Mana = maxMana;
@@ -332,6 +353,7 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
                 continue;
             }
 
+            // Marksman special trait
             if (critical)
             {
                 currentEnemy.TakeDamage(Player, true);
@@ -343,6 +365,7 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 
             currentEnemy.TakeDamage(Player, false);
 
+            // decreases Mana for the Enchanter
             Player.Mana -= 10;
             if (Player.Mana < 0)
                 Player.Mana = 0;
@@ -353,6 +376,7 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 
         else
         {
+            // Brute special attack
             if (currentEnemy as Brute != null)
             {
                 
@@ -363,9 +387,11 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
                     Player.TakeDamage(currentEnemy, true);
                     Console.Clear();
                     Console.WriteLine("The enemy has landed a critical strike and you have lost 25% of your full HP");
+                    continue;
                 }
             }
 
+            // Witch special attack
             if(currentEnemy as Witch != null)
             {
                 
@@ -395,9 +421,8 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 
     if (Player.HP > 0)
         return Player;
-    
-        
-    
+         
+    // allows Enchanter to respawn if game over
     else if (!Player.HasRespawned && Player as Enchanter != null)
     {
         Console.WriteLine("You have respawned with full HP! Be careful, this is your last life.");
