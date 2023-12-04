@@ -1,7 +1,7 @@
 ﻿using DungeonQuest.Domain.Repositories;
 using System.Runtime.InteropServices;
 
-string input = "";
+
 string welcome = "Welcome to the Dungeon!\nTo win, you need to defeat 10 monsters.\nGood luck!\n\nTo start, enter your nickname:";
 
 while (true)
@@ -22,16 +22,31 @@ while (true)
 
     // GENERATING ENEMIES
 
-    List<int> monsters = GenerateMonsters();
+    List<int> monsters = GenerateMonsters(10);
+
+
+
+    foreach (int monster in monsters)
+        Console.Write($", {monster}");
+
+    
+    Console.ReadLine();
 
     // COMBAT
 
     Console.Clear();
+
+  
+
     int i = 0;
-    foreach (int monsterId in monsters)
+    bool flag = false;
+    int monsterId = new int();
+
+    for (int j = 0; j < monsters.Count; j++)
     {
         i++;
-        
+        monsterId = monsters[i-1];
+
         Monster currentEnemy = CreateEnemy(monsterId);
         
         Entity winner = Duel(Player, currentEnemy, i);
@@ -42,6 +57,7 @@ while (true)
         {
             i--;
             Console.WriteLine("\nYou lost. Better luck next time :(");
+            flag = true;
             break;
         }
         
@@ -51,14 +67,33 @@ while (true)
         
         if(Player.HP > Player.MaxHP)
             Player.HP = Player.MaxHP;
+
+
+        if (currentEnemy as Witch != null)
+        {
+            List<int> minions = new List<int>();
+
+            do
+            {
+                minions = GenerateMonsters(2);
+
+            } while (minions.Contains(3));
+                        
+            monsters.Insert(i+1, minions[1]);
+            monsters.Insert(i+1, minions[0]);
+
+            Console.WriteLine($"You have defeated the witch, but she has spawned 2 new enemies ({minions[0]}, {minions[1]})");
+            Console.WriteLine("To win the game, you now have to defeat 2 enemies extra");
+
+        }
     }
     
     //  GAME END
 
-    if(i == 10)
+    if(!flag)
         Console.WriteLine("\nCongratulations. You won!");
 
-    Console.WriteLine($"You have passed {i}/10 enemies and reached level {Player.XP/100}");
+    Console.WriteLine($"You have passed {i} enemies and reached level {Player.XP/100}");
 
     bool again = GoAgain();
 
@@ -141,21 +176,21 @@ static void CustomHp(Hero Player)
         Player.HP = newHp;
 }
 
-static List<int> GenerateMonsters()
+static List<int> GenerateMonsters(int n)
 {
-    //creates a list of 10 IDs (50% -> Goblin (ID = 1), 24% -> Brute (ID = 2), 1% - Witch (ID = 3))
+    //creates a list of n IDs (75% -> Goblin (ID = 1), 20% -> Brute (ID = 2), 5% - Witch (ID = 3))
     List<int> idList = new List<int>();
     Random random = new Random();
     int id = new int();
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < n; i++)
     {
         id = random.Next(1, 101);
 
-        if (id == 1)
+        if (id <= 5)
             idList.Add(3);
 
-        else if (id < 25)
+        else if (id <= 25)
             idList.Add(2);
 
         else
@@ -193,6 +228,8 @@ static Monster CreateEnemy(int id)
     return new Monster(); //added because of error - not all code paths return a value
 }
 
+ 
+
 static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 {
     
@@ -207,7 +244,7 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 
     while(Player.HP > 0 && currentEnemy.HP > 0)
     {
-        Console.WriteLine($"Enemy {enemyIndex} of 10 ({currentEnemy.Name})\nYour level is {Player.XP/100}\n");
+        Console.WriteLine($"\nEnemy {enemyIndex}: ({currentEnemy.Name})\nYour level is {Player.XP/100}\n");
         Console.WriteLine("Name\t\tHP\t\tDMG\t\tXP");
         Console.WriteLine($"{Player.Name}\t\t{Player.HP}/{Player.MaxHP}\t\t{Player.Dmg}\t\t{Player.XP%100}/100");
         Console.WriteLine($"{currentEnemy.Name}\t\t{currentEnemy.HP}/{currentEnemy.MaxHP}\t\t{currentEnemy.Dmg}\t\t{currentEnemy.XP}\n");
@@ -343,6 +380,8 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 
     if (Player.HP > 0)
         return Player;
+    
+        
     
     else if (!Player.HasRespawned && Player as Enchanter != null)
     {
