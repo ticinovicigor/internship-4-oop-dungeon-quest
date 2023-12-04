@@ -314,6 +314,19 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 
         else
         {
+            if (currentEnemy as Brute != null)
+            {
+                Random random = new Random();
+                int chance = random.Next(1, 101);
+
+                if (chance <= 15)
+                {
+                    Player.TakeDamage(currentEnemy, true);
+                    Console.Clear();
+                    Console.WriteLine("The enemy has landed a critical strike and you have lost 25% of your full HP");
+                }
+            }
+
             Player.TakeDamage(currentEnemy, false);
 
             Player.Mana -= 10;

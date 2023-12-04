@@ -20,7 +20,15 @@ namespace DungeonQuest.Domain.Repositories
 
         public void TakeDamage(Entity enemy, bool specialAbilityUsed)
         {
-            HP -= enemy.Dmg;
+            if (specialAbilityUsed)
+            {
+                HP -= MaxHP / 4;
+            }
+
+            else
+            {
+                HP -= enemy.Dmg;
+            }
         }
     }
 }
