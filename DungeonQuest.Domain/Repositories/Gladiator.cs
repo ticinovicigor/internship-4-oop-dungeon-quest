@@ -21,7 +21,7 @@ namespace DungeonQuest.Domain.Repositories
             HP = 150;
             XP = 0;
             Dmg = 25;
-            
+            JoomboosUsed = false;
         }
     }
 }

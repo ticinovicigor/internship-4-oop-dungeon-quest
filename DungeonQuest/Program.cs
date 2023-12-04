@@ -24,14 +24,6 @@ while (true)
 
     List<int> monsters = GenerateMonsters(10);
 
-
-
-    foreach (int monster in monsters)
-        Console.Write($", {monster}");
-
-    
-    Console.ReadLine();
-
     // COMBAT
 
     Console.Clear();
@@ -79,10 +71,10 @@ while (true)
 
             } while (minions.Contains(3));
                         
-            monsters.Insert(i+1, minions[1]);
-            monsters.Insert(i+1, minions[0]);
+            monsters.Insert(i, minions[1]);
+            monsters.Insert(i, minions[0]);
 
-            Console.WriteLine($"You have defeated the witch, but she has spawned 2 new enemies ({minions[0]}, {minions[1]})");
+            Console.WriteLine($"You have defeated the witch, but she has spawned 2 new enemies");
             Console.WriteLine("To win the game, you now have to defeat 2 enemies extra");
 
         }
@@ -232,7 +224,8 @@ static Monster CreateEnemy(int id)
 
 static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 {
-    
+    Random random = new Random();
+
     List<string> attacks = new List<string> { "", "Direct Attack", "Flank Attack", "Counterattack", Player.SpecialAbility};
     
     int maxMana = 40 + 20 * (Player.XP / 100);
@@ -241,6 +234,10 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
     Player.CriticalChance = 10 + 6 * (Player.XP / 100);
     bool critical = false;
     bool stun = false;
+
+    if(Player.JoomboosUsed)
+        currentEnemy.HP = random.Next(1, Player.MaxHP);
+    
 
     while(Player.HP > 0 && currentEnemy.HP > 0)
     {
@@ -310,7 +307,6 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 
         if (Player as Marksman != null)
         {
-            Random random = new Random();
             int chance = random.Next(1, 101);   // critical attack and stun attack CANNOT be used simultaneously
             
             if (chance <= Player.CriticalChance / 2)
@@ -353,7 +349,7 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
         {
             if (currentEnemy as Brute != null)
             {
-                Random random = new Random();
+                
                 int chance = random.Next(1, 101);
 
                 if (chance <= 15)
@@ -362,6 +358,19 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
                     Console.Clear();
                     Console.WriteLine("The enemy has landed a critical strike and you have lost 25% of your full HP");
                 }
+            }
+
+            if(currentEnemy as Witch != null)
+            {
+                
+                int chance = random.Next(1, 101);
+
+                if (chance <= 20)
+                    Player.JoomboosUsed = true;
+                
+                Console.Clear();
+                Console.WriteLine("Witch has used Joomboos. From now on everyone's HP has been shuffled");
+                continue;
             }
 
             Player.TakeDamage(currentEnemy, false);

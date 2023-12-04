@@ -20,6 +20,7 @@ namespace DungeonQuest.Domain.Repositories
             XP = 0;
             Mana = 40;
             Dmg = 50;
+            JoomboosUsed = false;
         }
     }
 }

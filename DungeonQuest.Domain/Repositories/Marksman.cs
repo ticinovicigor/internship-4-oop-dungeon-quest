@@ -20,6 +20,7 @@ namespace DungeonQuest.Domain.Repositories
             XP = 0;
             CriticalChance = 10;
             Dmg = 35;
+            JoomboosUsed = false;
         }
     }
 }
