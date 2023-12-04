@@ -12,7 +12,7 @@ namespace DungeonQuest.Domain.Repositories
         {
             HP -= enemy.Dmg;
 
-            if(specialAbilityUsed && enemy as Gladiator != null)    //if Gladiator uses his special ability the enemy takes double damage
+            if(specialAbilityUsed)    //if a special ability is used the monster always takes double damage
                 HP -= enemy.Dmg;
         }
     }

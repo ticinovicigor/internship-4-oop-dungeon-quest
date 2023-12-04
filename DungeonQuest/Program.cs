@@ -202,6 +202,8 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
     Player.Mana = maxMana;
 
     Player.CriticalChance = 10 + 6 * (Player.XP / 100);
+    bool critical = false;
+    bool stun = false;
 
     while(Player.HP > 0 && currentEnemy.HP > 0)
     {
@@ -240,6 +242,17 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
             
             continue;
         }
+
+        if(stun)
+        {
+            stun = false;
+
+            currentEnemy.TakeDamage(Player, false);
+
+            Console.Clear();
+            Console.WriteLine($"The enemy was stunned and you have dealt {Player.Dmg} damage!");
+            continue;
+        }
         
         if (playerAttack == enemyAttack)
         {
@@ -255,17 +268,17 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 
         bool playerHasWon = AttackWon(playerAttack, enemyAttack);
 
-        bool critical = false;
-        bool stun = false;
+        critical = false;
+        stun = false;
 
         if (Player as Marksman != null)
         {
             Random random = new Random();
-            int chance = random.Next(1, 101);
+            int chance = random.Next(1, 101);   // critical attack and stun attack CANNOT be used simultaneously
+            
             if (chance <= Player.CriticalChance / 2)
-            {
-                //stun
-            }
+                stun = true;
+
             else if (chance <= Player.CriticalChance)
                 critical = true;
         }
@@ -282,13 +295,11 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 
             if (critical)
             {
-                Player.Dmg *= 2;
-                currentEnemy.TakeDamage(Player, false);
+                currentEnemy.TakeDamage(Player, true);
 
                 Console.Clear();
-                Console.WriteLine($"You have landed a Critical Hit and have dealt {Player.Dmg} damage!");
-                
-                Player.Dmg /= 2;
+                Console.WriteLine($"You have landed a Critical Hit and have dealt {Player.Dmg * 2} damage!");
+                continue;
             }
 
             currentEnemy.TakeDamage(Player, false);
@@ -313,6 +324,8 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
             Console.WriteLine($"{currentEnemy.Name} has used {attacks[enemyAttack]}. You have lost {currentEnemy.Dmg} HP!");
         }
 
+        if(stun)
+            Console.WriteLine("You have stunned your enemy!");
     }
 
     if (Player.HP > 0)
