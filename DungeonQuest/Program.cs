@@ -9,14 +9,14 @@ while (true)
     //  CHARACTER CREATION
 
     Hero Player = new Hero();
-    string playerName = GetHeroName(welcome); 
-    
+    string playerName = GetHeroName(welcome);
+
     Console.Clear();
     int heroId = ChooseHero();  // 1 - Gladiator, 2 - Enchanter, 3 - Marksman
     Player = CreateHero(Player, heroId, playerName);
-    
 
-    Console.Clear() ;
+
+    Console.Clear();
     CustomHp(Player);
     Player.MaxHP = Player.HP;
 
@@ -28,7 +28,7 @@ while (true)
 
     Console.Clear();
 
-  
+
 
     int i = 0;
     bool flag = false;
@@ -37,27 +37,27 @@ while (true)
     for (int j = 0; j < monsters.Count; j++)
     {
         i++;
-        monsterId = monsters[i-1];
+        monsterId = monsters[i - 1];
 
         Monster currentEnemy = CreateEnemy(monsterId);
-        
+
         Entity winner = Duel(Player, currentEnemy, i);
-        
-        
-        
-        if(winner as Monster != null)
+
+
+
+        if (winner as Monster != null)
         {
             i--;
             Console.WriteLine("\nYou lost. Better luck next time :(");
             flag = true;
             break;
         }
-        
+
         Player.XP += currentEnemy.XP;
 
-        Player.HP += Player.MaxHP/4;
-        
-        if(Player.HP > Player.MaxHP)
+        Player.HP += Player.MaxHP / 4;
+
+        if (Player.HP > Player.MaxHP)
             Player.HP = Player.MaxHP;
 
 
@@ -70,7 +70,7 @@ while (true)
                 minions = GenerateMonsters(2);
 
             } while (minions.Contains(3));
-                        
+
             monsters.Insert(i, minions[1]);
             monsters.Insert(i, minions[0]);
 
@@ -79,18 +79,21 @@ while (true)
 
         }
     }
-    
+
     //  GAME END
 
-    if(!flag)
+    if (!flag)
         Console.WriteLine("\nCongratulations. You won!");
 
-    Console.WriteLine($"You have passed {i} enemies and reached level {Player.XP/100}");
+    Console.WriteLine($"You have passed {i} enemies and reached level {Player.XP / 100}");
 
     bool again = GoAgain();
 
     if (!again)
+    {
+        Console.Clear();
         break;
+    }
 }
 
 static string GetHeroName(string welcome)
@@ -100,8 +103,11 @@ static string GetHeroName(string welcome)
 
     while (newName == "")
     {
-        if(!firstTime)
+        if (!firstTime)
+        {
+            Console.Clear();
             Console.WriteLine("Wrong input, try again");
+        }
         firstTime = false;
 
         Console.WriteLine(welcome);
