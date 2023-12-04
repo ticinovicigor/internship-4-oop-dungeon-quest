@@ -41,7 +41,7 @@ while (true)
         if(winner as Monster != null)
         {
             i--;
-            Console.WriteLine("You lost. Better luck next time :(");
+            Console.WriteLine("\nYou lost. Better luck next time :(");
             break;
         }
         
@@ -57,7 +57,7 @@ while (true)
     //  GAME END
 
     if(i == 10)
-        Console.WriteLine("Congratulations. You won!");
+        Console.WriteLine("\nCongratulations. You won!");
 
     Console.WriteLine($"You have passed {i}/10 enemies and reached level {Player.XP/100}");
 
@@ -89,7 +89,7 @@ static int ChooseHero()
 {
     while (true)
     {
-        Console.WriteLine("Choose your hero:\n1 - Gladiator (150 HP, 25 DMG, rage)\n2 - Enchanter (50 HP, 50 DMG, mana, resurrection)\n3 - Marksman (100 HP, 35 DMG, critical chance, stun chance)");
+        Console.WriteLine("Choose your hero:\n1 - Gladiator (150 HP, 25 DMG, Rage)\n2 - Enchanter (50 HP, 50 DMG, Mana, Resurrection)\n3 - Marksman (100 HP, 35 DMG, Critical Chance, Stun Chance)");
         string choice = Console.ReadLine();
         switch(choice)
         {
@@ -198,24 +198,23 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 {
     bool firstTime = true;
     List<string> attacks = new List<string> { "", "Direct Attack", "Flank Attack", "Counterattack", Player.SpecialAbility};
+    int maxMana = 40 + 20 * (Player.XP / 100);
 
     while(Player.HP > 0 && currentEnemy.HP > 0)
     {
-        Console.WriteLine($"Enemy {enemyIndex} of 10 ({currentEnemy.Name})\nYour level is {Player.XP/10}\n");
+        Console.WriteLine($"Enemy {enemyIndex} of 10 ({currentEnemy.Name})\nYour level is {Player.XP/100}\n");
         Console.WriteLine("Name\t\tHP\t\tDMG\t\tXP");
         Console.WriteLine($"{Player.Name}\t\t{Player.HP}/{Player.MaxHP}\t\t{Player.Dmg}\t\t{Player.XP%100}/100");
         Console.WriteLine($"{currentEnemy.Name}\t\t{currentEnemy.HP}/{currentEnemy.MaxHP}\t\t{currentEnemy.Dmg}\t\t{currentEnemy.XP}\n");
 
+        if(Player as Enchanter != null)
+            Console.WriteLine($"You have {Player.Mana}/{maxMana} Mana\n");
+
         int playerAttack = ChooseAttack(Player);
         int enemyAttack = EnemyChooseAttack(); 
 
-        if(playerAttack == enemyAttack)
-        {
-            Console.Clear();
-            Console.WriteLine($"{currentEnemy.Name} has used {attacks[enemyAttack]}. It's a draw!");
-            continue;
-        }
-
+        
+        
         if (attacks[playerAttack] == "Rage")
         {
             Player.HP -= Player.MaxHP/5;
@@ -228,18 +227,59 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
             continue;
         }
 
+        if (attacks[playerAttack] == "Regenerate")
+        {
+            Player.Mana /= 4;
+            Player.HP = Player.MaxHP;
+            
+            Console.Clear();
+            Console.WriteLine("You have spent this move on regenerating your HP for 75% of your Mana");
+            
+            continue;
+        }
+        
+        if (playerAttack == enemyAttack)
+        {
+            Console.Clear();
+            Console.WriteLine($"{currentEnemy.Name} has used {attacks[enemyAttack]}. It's a draw!");
+
+            Player.Mana -= 10;
+            if (Player.Mana < 0)
+                Player.Mana = 0;
+
+            continue;
+        }
+
         bool playerHasWon = AttackWon(playerAttack, enemyAttack);
         
         if(playerHasWon)
         {
+            if(Player as Enchanter != null && Player.Mana <= 0)
+            {
+                Player.Mana = maxMana;
+                Console.Clear();
+                Console.WriteLine("You had no Mana left so you have spent this move on regaining it.");
+                continue;
+            }
+
             currentEnemy.TakeDamage(Player, false);
+
+            Player.Mana -= 10;
+            if (Player.Mana < 0)
+                Player.Mana = 0;
+
             Console.Clear();
             Console.WriteLine($"{currentEnemy.Name} has used {attacks[enemyAttack]}. You have dealt {Player.Dmg} damage!");
         }
 
         else
         {
-            Player.TakeDamage(currentEnemy, false); 
+            Player.TakeDamage(currentEnemy, false);
+
+            Player.Mana -= 10;
+            if (Player.Mana < 0)
+                Player.Mana = 0;
+
             Console.Clear();
             Console.WriteLine($"{currentEnemy.Name} has used {attacks[enemyAttack]}. You have lost {currentEnemy.Dmg} HP!");
         }
@@ -248,6 +288,15 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 
     if (Player.HP > 0)
         return Player;
+    
+    else if (!Player.HasRespawned && Player as Enchanter != null)
+    {
+        Console.WriteLine("You have respawned with full HP! Be careful, this is your last life.");
+        Player.HP = Player.MaxHP;
+        Player.HasRespawned = true;
+        return Duel(Player, currentEnemy, enemyIndex);
+    }
+
     else
         return currentEnemy;
 } 
@@ -257,7 +306,7 @@ static int ChooseAttack(Hero Player)
     while (true)
     {
         Console.WriteLine("Choose your attack:\n1 - Direct Attack\n2 - Flank Attack\n3 - Counterattack");
-        Console.WriteLine(Player.SpecialChoiceMessage); //  string in format "4 - {hero-specific-ability}"
+        Console.WriteLine(Player.SpecialChoiceMessage); //  string in format "4 - {hero-special-ability}"
         string choice = Console.ReadLine();
         
         if(choice == "4" && Player as Marksman == null) // every hero except marksman has a special "activatable" ability

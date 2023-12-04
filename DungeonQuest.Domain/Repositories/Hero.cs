@@ -12,6 +12,10 @@ namespace DungeonQuest.Domain.Repositories
         public string SpecialChoiceMessage { get; set; }
         public string SpecialAbility { get; set; }
 
+        public int Mana { get; set; }
+
+        public bool HasRespawned = false;
+
         public void TakeDamage(Entity enemy, bool specialAbilityUsed)
         {
             HP -= enemy.Dmg;

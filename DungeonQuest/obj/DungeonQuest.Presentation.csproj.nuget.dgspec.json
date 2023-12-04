@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\igort\\Documents\\DUMP\\internship-4-oop-dungeon-quest\\DungeonQuest\\DungeonQuest.Presentation.csproj": {}
+    "C:\\Users\\igort\\Documents\\DUMP\\internship-4-oop-dungeon-quest\\dungeonquest\\DungeonQuest.Presentation.csproj": {}
   },
   "projects": {
     "C:\\Users\\igort\\Documents\\DUMP\\internship-4-oop-dungeon-quest\\DungeonQuest.Data\\DungeonQuest.Data.csproj": {
@@ -118,14 +118,14 @@
         }
       }
     },
-    "C:\\Users\\igort\\Documents\\DUMP\\internship-4-oop-dungeon-quest\\DungeonQuest\\DungeonQuest.Presentation.csproj": {
+    "C:\\Users\\igort\\Documents\\DUMP\\internship-4-oop-dungeon-quest\\dungeonquest\\DungeonQuest.Presentation.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\igort\\Documents\\DUMP\\internship-4-oop-dungeon-quest\\DungeonQuest\\DungeonQuest.Presentation.csproj",
+        "projectUniqueName": "C:\\Users\\igort\\Documents\\DUMP\\internship-4-oop-dungeon-quest\\dungeonquest\\DungeonQuest.Presentation.csproj",
         "projectName": "DungeonQuest.Presentation",
-        "projectPath": "C:\\Users\\igort\\Documents\\DUMP\\internship-4-oop-dungeon-quest\\DungeonQuest\\DungeonQuest.Presentation.csproj",
+        "projectPath": "C:\\Users\\igort\\Documents\\DUMP\\internship-4-oop-dungeon-quest\\dungeonquest\\DungeonQuest.Presentation.csproj",
         "packagesPath": "C:\\Users\\igort\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\igort\\Documents\\DUMP\\internship-4-oop-dungeon-quest\\DungeonQuest\\obj\\",
+        "outputPath": "C:\\Users\\igort\\Documents\\DUMP\\internship-4-oop-dungeon-quest\\dungeonquest\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\igort\\AppData\\Roaming\\NuGet\\NuGet.Config",

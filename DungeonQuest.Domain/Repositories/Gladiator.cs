@@ -15,7 +15,7 @@ namespace DungeonQuest.Domain.Repositories
 
         public Gladiator(string name)
         {
-            SpecialChoiceMessage = "4 - Rage (Do double damage in exchange for 20% of your max HP)";
+            SpecialChoiceMessage = "4 - Rage (Deal double damage in exchange for 20% of your max HP)";
             SpecialAbility = "Rage";
             Name = name;
             HP = 150;

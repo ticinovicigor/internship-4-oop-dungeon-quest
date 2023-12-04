@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AV2hXk+SByB6t4xBzOdR8yzCxzQh4jd1DDVCCMVrrEIrut2ZXkc2Gj/bZeKdl2BtnkP7minD0hp9zbSOX9uGqQ==",
+  "dgSpecHash": "7hzWdwMufIl8nLHVJfuSIP+fZkSf0ERYehDhQ5Ja7UZRUlSkdM+Ien6ed1CdkCxB/e4KRX2z+/216Uc+ORwTxA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\igort\\Documents\\DUMP\\internship-4-oop-dungeon-quest\\DungeonQuest\\DungeonQuest.Presentation.csproj",
+  "projectFilePath": "C:\\Users\\igort\\Documents\\DUMP\\internship-4-oop-dungeon-quest\\dungeonquest\\DungeonQuest.Presentation.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
