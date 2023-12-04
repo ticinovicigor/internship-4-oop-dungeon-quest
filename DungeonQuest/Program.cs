@@ -47,7 +47,6 @@ while (true)
         
         Player.XP += currentEnemy.XP;
 
-        
         Player.HP += Player.MaxHP/4;
         
         if(Player.HP > Player.MaxHP)
@@ -196,9 +195,13 @@ static Monster CreateEnemy(int id)
 
 static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
 {
-    bool firstTime = true;
+    
     List<string> attacks = new List<string> { "", "Direct Attack", "Flank Attack", "Counterattack", Player.SpecialAbility};
+    
     int maxMana = 40 + 20 * (Player.XP / 100);
+    Player.Mana = maxMana;
+
+    Player.CriticalChance = 10 + 6 * (Player.XP / 100);
 
     while(Player.HP > 0 && currentEnemy.HP > 0)
     {
@@ -251,8 +254,23 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
         }
 
         bool playerHasWon = AttackWon(playerAttack, enemyAttack);
-        
-        if(playerHasWon)
+
+        bool critical = false;
+        bool stun = false;
+
+        if (Player as Marksman != null)
+        {
+            Random random = new Random();
+            int chance = random.Next(1, 101);
+            if (chance <= Player.CriticalChance / 2)
+            {
+                //stun
+            }
+            else if (chance <= Player.CriticalChance)
+                critical = true;
+        }
+
+        if (playerHasWon)
         {
             if(Player as Enchanter != null && Player.Mana <= 0)
             {
@@ -260,6 +278,17 @@ static Entity Duel(Hero Player, Monster currentEnemy, int enemyIndex)
                 Console.Clear();
                 Console.WriteLine("You had no Mana left so you have spent this move on regaining it.");
                 continue;
+            }
+
+            if (critical)
+            {
+                Player.Dmg *= 2;
+                currentEnemy.TakeDamage(Player, false);
+
+                Console.Clear();
+                Console.WriteLine($"You have landed a Critical Hit and have dealt {Player.Dmg} damage!");
+                
+                Player.Dmg /= 2;
             }
 
             currentEnemy.TakeDamage(Player, false);

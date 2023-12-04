@@ -16,6 +16,8 @@ namespace DungeonQuest.Domain.Repositories
 
         public bool HasRespawned = false;
 
+        public int CriticalChance { get; set; }
+
         public void TakeDamage(Entity enemy, bool specialAbilityUsed)
         {
             HP -= enemy.Dmg;

@@ -12,15 +12,13 @@ namespace DungeonQuest.Domain.Repositories
     {
 
         
-        public int CriticalChance { get; set; }
-        public int StunChance { get; set; }
+        
         public Marksman(string name)
         {
             Name = name;
             HP = 100;
             XP = 0;
-            CriticalChance = 0;
-            StunChance = 0;
+            CriticalChance = 10;
             Dmg = 35;
         }
     }
